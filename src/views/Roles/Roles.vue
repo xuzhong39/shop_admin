@@ -96,7 +96,7 @@ export default {
     this.getRoleList();
   },
   methods: {
-    async getRoleList() {
+    async getRoleList(callback) {
       let res = await this.$http({
         url: "roles"
       });
@@ -104,6 +104,7 @@ export default {
       if (res.data.meta.status === 200) {
         this.roleList = res.data.data;
       }
+      callback && calback();
     },
     async deleteRight(row, id) {
       // console.log(row, id);
@@ -138,7 +139,14 @@ export default {
           message: res.data.meta.msg,
           duration: 1000
         });
-        this.getRoleList();
+        this.getRoleList(() => {
+          this.$nextTick(() => {
+            this.$refs.roleTable.toggleRowExpansion(
+              this.roleList.find(v => v.id === row.id),
+              true
+            );
+          });
+        });
       } else {
         this.$message({
           type: "error",
@@ -162,20 +170,20 @@ export default {
       this.rightsList = res.data.data;
       // 需要让当前tree组件默认选中当前角色拥有的权限信息
       // checkedRights ： 我们需要把当前角色row中所有的权限的id，组合成一个数组，赋值给checkedRights
-      let level1Ids = [];
-      let level2Ids = [];
+      // let level1Ids = [];
+      // let level2Ids = [];
       let level3Ids = [];
       row.children.forEach(level1 => {
-        level1Ids.push(level1.id);
+        // level1Ids.push(level1.id);
         level1.children.forEach(level2 => {
-          level2Ids.push(level2.id);
+          // level2Ids.push(level2.id);
           level2.children.forEach(level3 => {
             level3Ids.push(level3.id);
           });
         });
       });
       // console.log(level1Ids, level2Ids, level3Ids);
-      let arr = [...level1Ids, ...level2Ids, ...level3Ids];
+      let arr = [...level3Ids];
       // 将arr 赋值给checkedRights
       this.checkedRights = arr;
     },
