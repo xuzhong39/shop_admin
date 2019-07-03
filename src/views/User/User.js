@@ -8,6 +8,7 @@ export default {
       pageSize: 3,
       isAddUserDialogShow: false,
       isEditUserDialogShow: false,
+      isAssignRoleDialogShow: false,
       // 添加用户的表单数据
       addUserFormData: {
         username: "",
@@ -72,7 +73,12 @@ export default {
             trigger: "change"
           }
         ]
-      }
+      },
+      AssignRole: {
+        username: "",
+        role_id: ""
+      },
+      roleList: []
     };
   },
   created() {
@@ -243,6 +249,46 @@ export default {
         }
       } catch (err) {
         console.log(err);
+      }
+    },
+    async openAssignRoleDialogShow(id) {
+      this.isAssignRoleDialogShow = true;
+      // 发送ajax请求
+      let res = await this.$http({
+        url: `users/${id}`
+      });
+      // console.log(res);
+      this.AssignRole = res.data.data;
+
+      let result = await this.$http({
+        url: "roles"
+      });
+      // console.log(result);
+      this.roleList = result.data.data;
+    },
+    async assignRole() {
+      let res = await this.$http({
+        url: `users/${this.AssignRole.id}/role`,
+        method: "put",
+        data: {
+          rid: this.AssignRole.role_id
+        }
+      });
+      // console.log(res);
+      if (res.data.meta.status === 200) {
+        this.$message({
+          type: "success",
+          message: res.data.meta.msg,
+          duration: 1000
+        });
+        // 关闭模态框
+        this.isAssignRoleDialogShow = false;
+      } else {
+        this.$message({
+          type: "error",
+          message: res.data.meta.msg,
+          duration: 1000
+        });
       }
     }
   }
