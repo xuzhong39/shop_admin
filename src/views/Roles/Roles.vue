@@ -100,15 +100,15 @@ export default {
       let res = await this.$http({
         url: "roles"
       });
-      console.log(res);
+      // console.log(res);
       if (res.data.meta.status === 200) {
         this.roleList = res.data.data;
       }
-      callback && calback();
+      callback && callback();
     },
     async deleteRight(row, id) {
       // console.log(row, id);
-      console.log(row.children);
+      // console.log(row.children);
       let level1Ids = [];
       let level2Ids = [];
       let level3Ids = [];
@@ -123,7 +123,7 @@ export default {
       });
       // console.log(level1Ids, level2Ids, level3Ids);
       let result = [...level1Ids, ...level2Ids, ...level3Ids];
-      console.log(result);
+      // console.log(result);
       let ids = result.filter(v => v !== id).join(",");
       let res = await this.$http({
         url: `roles/${row.id}/rights`,
@@ -139,6 +139,7 @@ export default {
           message: res.data.meta.msg,
           duration: 1000
         });
+        console.log(this.roleList);
         this.getRoleList(() => {
           this.$nextTick(() => {
             this.$refs.roleTable.toggleRowExpansion(
