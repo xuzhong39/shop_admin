@@ -145,6 +145,9 @@ export default {
       }
     }
   }
+  .el-main {
+    overflow: overlay;
+  }
 }
 .el-container {
   height: 100%;
