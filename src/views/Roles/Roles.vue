@@ -108,31 +108,39 @@ export default {
     },
     async deleteRight(row, id) {
       // console.log(row, id);
-      // console.log(row.children);
-      let level1Ids = [];
-      let level2Ids = [];
-      let level3Ids = [];
-      row.children.forEach(level1 => {
-        level1Ids.push(level1.id);
-        level1.children.forEach(level2 => {
-          level2Ids.push(level2.id);
-          level2.children.forEach(level3 => {
-            level3Ids.push(level3.id);
-          });
-        });
-      });
-      // console.log(level1Ids, level2Ids, level3Ids);
-      let result = [...level1Ids, ...level2Ids, ...level3Ids];
-      // console.log(result);
-      let ids = result.filter(v => v !== id).join(",");
+
+      // 调用接口，删除单个权限
+      // 接口信息 roles/:id/rights/:rightID
       let res = await this.$http({
-        url: `roles/${row.id}/rights`,
-        method: "post",
-        data: {
-          rids: ids
-        }
+        url: `roles/${row.id}/rights/${id}`,
+        method: "delete"
       });
-      // console.log(res);
+      console.log(res);
+      // console.log(row.children);
+      // let level1Ids = [];
+      // let level2Ids = [];
+      // let level3Ids = [];
+      // row.children.forEach(level1 => {
+      //   level1Ids.push(level1.id);
+      //   level1.children.forEach(level2 => {
+      //     level2Ids.push(level2.id);
+      //     level2.children.forEach(level3 => {
+      //       level3Ids.push(level3.id);
+      //     });
+      //   });
+      // });
+      // console.log(level1Ids, level2Ids, level3Ids);
+      //   let result = [...level1Ids, ...level2Ids, ...level3Ids];
+      //   // console.log(result);
+      //   let ids = result.filter(v => v !== id).join(",");
+      //   let res = await this.$http({
+      //     url: `roles/${row.id}/rights`,
+      //     method: "post",
+      //     data: {
+      //       rids: ids
+      //     }
+      //   });
+      //   // console.log(res);
       if (res.data.meta.status === 200) {
         this.$message({
           type: "success",
@@ -203,7 +211,7 @@ export default {
           rids: result
         }
       });
-      // console.log(res);
+      console.log(res);
       if (res.data.meta.status === 200) {
         this.$message({
           type: "success",
