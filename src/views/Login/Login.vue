@@ -41,13 +41,12 @@
 // 3.需要把这个校验规则对象绑定到el-form组件上， :rules = 'ruleForm'
 // 4.需要给每一项需要校验的el-form-item组件 添加一个属性prop 属性值就是表单绑定的数据的名称
 
-import axios from "axios";
 export default {
   data() {
     return {
       form: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "123456"
       },
       ruleForm: {
         username: [
@@ -109,8 +108,8 @@ export default {
         // 发送ajax请求
         let {
           data: { data, meta }
-        } = await axios({
-          url: "http://localhost:8888/api/private/v1/login",
+        } = await this.$http({
+          url: "login",
           method: "post",
           data: this.form
         });

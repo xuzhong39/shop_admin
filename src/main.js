@@ -11,6 +11,17 @@ import "./assets/css/index.css";
 // 引入图片文件
 import "./assets/img/logo.png";
 
+import axios from "axios";
+
+Vue.prototype.$http = axios;
+
+axios.defaults.baseURL = "http://localhost:8888/api/private/v1/";
+
+axios.interceptors.request.use(function(config) {
+  config.headers.Authorization = localStorage.getItem("token");
+  return config;
+});
+
 // 3.安装ElementUI
 Vue.use(ElementUI);
 
