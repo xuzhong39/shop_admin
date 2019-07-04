@@ -63,7 +63,7 @@ export default {
     let res = await this.$http({
       url: "menus"
     });
-    console.log(res);
+    // console.log(res);
     if (res.data.meta.status === 200) {
       this.menusList = res.data.data;
     }
