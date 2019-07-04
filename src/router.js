@@ -48,7 +48,7 @@ export default new Router({
           component: Categories
         },
         {
-          path: "/good-add",
+          path: "/goods-add",
           component: GoodsAdd
         }
       ]
