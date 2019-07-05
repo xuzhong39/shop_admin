@@ -36,12 +36,16 @@
     ></el-pagination>
 
     <!-- 添加分类模态框 -->
-    <el-dialog title="添加分类" :visible.sync="isAddCategoryDialogShow">
+    <el-dialog
+      title="添加分类"
+      :visible.sync="isAddCategoryDialogShow"
+      @close="$refs.cateFormData.resetFields()"
+    >
       <el-form ref="cateFormData" label-width="100px" :model="addCateFormData">
-        <el-form-item label="分类名称">
+        <el-form-item label="分类名称" prop="cat_name">
           <el-input v-model="addCateFormData.cat_name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="父级名称">
+        <el-form-item label="父级名称" prop="parentArr">
           <el-cascader
             :options="cateOptions"
             :props="defaultProps"
@@ -142,10 +146,10 @@ export default {
         });
         // 关闭模态框
         this.isAddCategoryDialogShow = false;
-        // 清空表单
-        // console.log(this.$refs.cateFormData.resetFields);
-        // this.$refs.cateFormData.resetFields();
-        this.addCateFormData = {};
+        // // 清空表单
+        // // console.log(this.$refs.cateFormData.resetFields);
+        // // this.$refs.cateFormData.resetFields();
+        // this.addCateFormData = {};
         // 刷新列表
         this.getcategoryList();
       } else {
