@@ -144,7 +144,8 @@ export default {
         this.isAddCategoryDialogShow = false;
         // 清空表单
         // console.log(this.$refs.cateFormData.resetFields);
-        this.$refs.cateFormData.resetFields();
+        // this.$refs.cateFormData.resetFields();
+        this.addCateFormData = {};
         // 刷新列表
         this.getcategoryList();
       } else {
